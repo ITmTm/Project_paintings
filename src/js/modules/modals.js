@@ -41,7 +41,7 @@ const modals = () => {
 			if (e.code === 'Escape' && modal.classList.contains('popup-design') || modal.classList.contains('popup-consultation') || modal.classList.contains('popup-gift')) {
 
 				hideModalDisplay();
-
+				document.body.style.marginRight = `0px`;
 			}
 		})
 
