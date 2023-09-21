@@ -1,17 +1,20 @@
 const modals = () => {
-	let btnPressed;
+	let btnPressed = false;
 	function bindModal(triggerSelector, modalSelector, closeSelector, destroy = false) {
 		const trigger = document.querySelectorAll(triggerSelector),
 		      modal = document.querySelector(modalSelector),
 		      close = document.querySelector(closeSelector),
-		      window = document.querySelectorAll('[data-modal]'),
-			  scroll = calcScroll();
+		      windows = document.querySelectorAll('[data-modal]'),
+			  scroll = calcScroll(),
+			  present = document.querySelector('.fixed-gift');
 
 		trigger.forEach(item => {
 			item.addEventListener('click', (e) => {
 				if (e.target) {
 					e.preventDefault();
 				}
+
+				btnPressed = true;
 
 				if (destroy) {
 					item.remove();
@@ -20,48 +23,59 @@ const modals = () => {
 				hideDataModal();
 				showModalDisplay();
 
+
 				document.body.style.marginRight = `${scroll}px`;
 			});
 		});
 
 		close.addEventListener('click', () => {
+
 			hideDataModal();
-			hideModalDisplay()
+			hideModalDisplay();
+
 
 			document.body.style.marginRight = `0px`;
 		});
 
 		document.addEventListener('keydown', (e) => {
 			if (e.code === 'Escape' && modal.classList.contains('popup-design') || modal.classList.contains('popup-consultation') || modal.classList.contains('popup-gift')) {
+
 				hideModalDisplay();
+
 			}
 		})
 
 
 		modal.addEventListener('click', (e) => {
 			if (e.target === modal) {
+
+
 				hideDataModal();
 
 				hideModalDisplay()
 
 				document.body.style.marginRight = `0px`;
+
 			}
 		});
 
 
 		function showModalDisplay() {
 			modal.style.display = 'block';
-			document.body.overflow = 'hidden';
+			document.body.style.overflow = 'hidden';
+			present.style.marginRight = '17px';
 		}
 
 		function hideModalDisplay() {
 			modal.style.display = 'none';
-			document.body.overflow = '';
+			document.body.style.overflow = '';
+			present.style.marginRight = '0';
 		}
 
 		function hideDataModal() {
-			window.forEach(item => {
+			windows.forEach(item => {
 				item.style.display = 'none';
+				item.classList.add('animated', 'fadeIn');
 			});
 		}
 	}
@@ -69,8 +83,6 @@ const modals = () => {
 	function showModalByTime(selector, time) {
 		setTimeout(function() {
 			let display;
-
-			// document.body.style.marginRight = `${calcScroll()}px`;
 
 			document.querySelectorAll('[data-modal]').forEach(item => {
 				if (getComputedStyle(item).display !== 'none') {
@@ -82,6 +94,8 @@ const modals = () => {
 				document.querySelector(selector).style.display = 'block';
 				document.body.style.overflow = 'hidden';
 				let scroll = calcScroll();
+
+				document.body.style.marginRight = `${scroll}px`;
 			}
 		}, time);
 	}
@@ -101,10 +115,21 @@ const modals = () => {
 		return scrollWidth;
 	}
 
+	function openByScroll(selector) {
+		window.addEventListener('scroll', () => {
+			let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+
+			if (!btnPressed && (window.scrollY + document.documentElement.clientHeight >= scrollHeight)) {
+				document.querySelector(selector).click();
+			}
+		});
+	}
+
 	bindModal('.button-design', '.popup-design', '.popup-design .popup-close');
 	bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close');
 	bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close', true);
-	showModalByTime('.popup-consultation', 60000);
+	openByScroll('.fixed-gift');
+	// showModalByTime('.popup-consultation', 60000);
 
 };
 
