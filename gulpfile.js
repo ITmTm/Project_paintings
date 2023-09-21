@@ -1,10 +1,19 @@
 "use strict";
 
 const gulp = require("gulp");
+const htmlmin = require('gulp-htmlmin');
+
 const webpack = require("webpack-stream");
 const browsersync = require("browser-sync");
 
 const dist = "./dist/";
+
+gulp.task("copy-html", () => {
+    return gulp.src("./src/index.html")
+        .pipe(gulp.dest(dist))
+        .pipe(browsersync.stream());
+});
+
 
 gulp.task("copy-html", () => {
     return gulp.src("./src/index.html")
@@ -60,6 +69,51 @@ gulp.task("watch", () => {
     gulp.watch("./src/index.html", gulp.parallel("copy-html"));
     gulp.watch("./src/assets/**/*.*", gulp.parallel("copy-assets"));
     gulp.watch("./src/js/**/*.js", gulp.parallel("build-js"));
+});
+
+gulp.task('minify-html', function() {
+    return gulp.src('./src/index.html') // указываем пути к файлам .html
+        .pipe(htmlmin({
+            collapseWhitespace: true, // удаляем все переносы
+            removeComments: true // удаляем все комментарии
+        }))
+        .pipe(gulp.dest('dist')); // оптимизированные файлы .html переносим на продакшен
+});
+
+gulp.task('minify-css', function() {
+    return gulp.src('./src/assets/css/style.css') // указываем пути к файлам .html
+        .pipe(htmlmin({
+            collapseWhitespace: true, // удаляем все переносы
+            removeComments: true // удаляем все комментарии
+        }))
+        .pipe(gulp.dest('dist/assets/css')); // оптимизированные файлы .html переносим на продакшен
+});
+
+gulp.task('minify-bootstrap-css', function() {
+    return gulp.src('./src/assets/css/bootstrap.css') // указываем пути к файлам .html
+        .pipe(htmlmin({
+            collapseWhitespace: true, // удаляем все переносы
+            removeComments: true // удаляем все комментарии
+        }))
+        .pipe(gulp.dest('dist/assets/css')); // оптимизированные файлы .html переносим на продакшен
+});
+
+gulp.task('minify-animate-css', function() {
+    return gulp.src('./src/assets/css/animate.min.css') // указываем пути к файлам .html
+        .pipe(htmlmin({
+            collapseWhitespace: true, // удаляем все переносы
+            removeComments: true // удаляем все комментарии
+        }))
+        .pipe(gulp.dest('dist/assets/css')); // оптимизированные файлы .html переносим на продакшен
+});
+
+gulp.task('reset-css', function() {
+    return gulp.src('./src/assets/css/reset.css') // указываем пути к файлам .html
+        .pipe(htmlmin({
+            collapseWhitespace: true, // удаляем все переносы
+            removeComments: true // удаляем все комментарии
+        }))
+        .pipe(gulp.dest('dist/assets/css')); // оптимизированные файлы .html переносим на продакшен
 });
 
 gulp.task("build", gulp.parallel("copy-html", "copy-assets", "build-js"));

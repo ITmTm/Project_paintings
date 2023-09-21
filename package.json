@@ -26,5 +26,8 @@
 	},
 	"volta": {
 		"node": "16.20.2"
+	},
+	"dependencies": {
+		"gulp-htmlmin": "^5.0.1"
 	}
 }
