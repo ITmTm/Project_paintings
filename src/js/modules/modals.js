@@ -1,5 +1,11 @@
 const modals = () => {
+
+	document.querySelector('.pulse').classList.add('animated', 'pulse');
+	let popupAnimate = document.querySelector('.popup-wrap');
+	popupAnimate.classList.add('animated', 'pulse');
+
 	let btnPressed = false;
+
 	function bindModal(triggerSelector, modalSelector, closeSelector, destroy = false) {
 		const trigger = document.querySelectorAll(triggerSelector),
 		      modal = document.querySelector(modalSelector),
@@ -7,6 +13,7 @@ const modals = () => {
 		      windows = document.querySelectorAll('[data-modal]'),
 			  scroll = calcScroll(),
 			  present = document.querySelector('.fixed-gift');
+
 
 		trigger.forEach(item => {
 			item.addEventListener('click', (e) => {
@@ -23,7 +30,6 @@ const modals = () => {
 				hideDataModal();
 				showModalDisplay();
 
-
 				document.body.style.marginRight = `${scroll}px`;
 			});
 		});
@@ -32,7 +38,6 @@ const modals = () => {
 
 			hideDataModal();
 			hideModalDisplay();
-
 
 			document.body.style.marginRight = `0px`;
 		});
@@ -48,7 +53,6 @@ const modals = () => {
 
 		modal.addEventListener('click', (e) => {
 			if (e.target === modal) {
-
 
 				hideDataModal();
 
@@ -130,6 +134,7 @@ const modals = () => {
 	bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close', true);
 	openByScroll('.fixed-gift');
 	// showModalByTime('.popup-consultation', 60000);
+
 
 };
 

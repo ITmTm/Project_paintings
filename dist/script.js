@@ -10,6 +10,9 @@
 
 __webpack_require__.r(__webpack_exports__);
 const modals = () => {
+  document.querySelector('.pulse').classList.add('animated', 'pulse');
+  let popupAnimate = document.querySelector('.popup-wrap');
+  popupAnimate.classList.add('animated', 'pulse');
   let btnPressed = false;
   function bindModal(triggerSelector, modalSelector, closeSelector) {
     let destroy = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
