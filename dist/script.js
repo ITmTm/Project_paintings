@@ -57,29 +57,36 @@ const modals = () => {
         item.style.display = 'none';
       });
     }
-    function showModalByTime(selector, time) {
-      setTimeout(function () {
+  }
+  function showModalByTime(selector, time) {
+    setTimeout(function () {
+      let display;
+      document.querySelectorAll('[data-modal]').forEach(item => {
+        if (getComputedStyle(item).display !== 'none') {
+          display = 'block';
+        }
+      });
+      if (!display) {
         document.querySelector(selector).style.display = 'block';
         document.body.style.overflow = 'hidden';
-      }, time);
-    }
-    function calcScroll() {
-      let div = document.createElement('div');
-      div.style.width = '50px';
-      div.style.height = '50px';
-      div.style.overflow = 'scroll';
-      div.style.visibility = 'hidden';
-      document.body.appendChild(div);
-      let scrollWidth = div.offsetWidth - div.clientWidth;
-      div.remove();
-      return scrollWidth;
-    }
+      }
+    }, time);
+  }
+  function calcScroll() {
+    let div = document.createElement('div');
+    div.style.width = '50px';
+    div.style.height = '50px';
+    div.style.overflow = 'scroll';
+    div.style.visibility = 'hidden';
+    document.body.appendChild(div);
+    let scrollWidth = div.offsetWidth - div.clientWidth;
+    div.remove();
+    return scrollWidth;
   }
   bindModal('.button-design', '.popup-design', '.popup-design .popup-close');
   bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close');
-  // showModalByTime();
+  showModalByTime('.popup-consultation', 5000);
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (modals);
 
 /***/ })
