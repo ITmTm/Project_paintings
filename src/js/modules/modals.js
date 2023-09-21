@@ -1,5 +1,6 @@
 const modals = () => {
-	function bindModal(triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) {
+	let btnPressed;
+	function bindModal(triggerSelector, modalSelector, closeSelector, destroy = false) {
 		const trigger = document.querySelectorAll(triggerSelector),
 		      modal = document.querySelector(modalSelector),
 		      close = document.querySelector(closeSelector),
@@ -10,6 +11,10 @@ const modals = () => {
 			item.addEventListener('click', (e) => {
 				if (e.target) {
 					e.preventDefault();
+				}
+
+				if (destroy) {
+					item.remove();
 				}
 
 				hideDataModal();
@@ -27,14 +32,14 @@ const modals = () => {
 		});
 
 		document.addEventListener('keydown', (e) => {
-			if (e.code === 'Escape' && modal.classList.contains('popup-design') || modal.classList.contains('popup-consultation')) {
+			if (e.code === 'Escape' && modal.classList.contains('popup-design') || modal.classList.contains('popup-consultation') || modal.classList.contains('popup-gift')) {
 				hideModalDisplay();
 			}
 		})
 
 
 		modal.addEventListener('click', (e) => {
-			if (e.target === modal && closeClickOverlay) {
+			if (e.target === modal) {
 				hideDataModal();
 
 				hideModalDisplay()
@@ -65,6 +70,8 @@ const modals = () => {
 		setTimeout(function() {
 			let display;
 
+			// document.body.style.marginRight = `${calcScroll()}px`;
+
 			document.querySelectorAll('[data-modal]').forEach(item => {
 				if (getComputedStyle(item).display !== 'none') {
 					display = 'block';
@@ -74,6 +81,7 @@ const modals = () => {
 			if (!display) {
 				document.querySelector(selector).style.display = 'block';
 				document.body.style.overflow = 'hidden';
+				let scroll = calcScroll();
 			}
 		}, time);
 	}
@@ -95,7 +103,8 @@ const modals = () => {
 
 	bindModal('.button-design', '.popup-design', '.popup-design .popup-close');
 	bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close');
-	showModalByTime('.popup-consultation', 5000);
+	bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close', true);
+	showModalByTime('.popup-consultation', 60000);
 
 };
 

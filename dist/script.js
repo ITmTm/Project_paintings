@@ -10,8 +10,9 @@
 
 __webpack_require__.r(__webpack_exports__);
 const modals = () => {
+  let btnPressed;
   function bindModal(triggerSelector, modalSelector, closeSelector) {
-    let closeClickOverlay = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+    let destroy = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
     const trigger = document.querySelectorAll(triggerSelector),
       modal = document.querySelector(modalSelector),
       close = document.querySelector(closeSelector),
@@ -21,6 +22,9 @@ const modals = () => {
       item.addEventListener('click', e => {
         if (e.target) {
           e.preventDefault();
+        }
+        if (destroy) {
+          item.remove();
         }
         hideDataModal();
         showModalDisplay();
@@ -33,12 +37,12 @@ const modals = () => {
       document.body.style.marginRight = `0px`;
     });
     document.addEventListener('keydown', e => {
-      if (e.code === 'Escape' && modal.classList.contains('popup-design') || modal.classList.contains('popup-consultation')) {
+      if (e.code === 'Escape' && modal.classList.contains('popup-design') || modal.classList.contains('popup-consultation') || modal.classList.contains('popup-gift')) {
         hideModalDisplay();
       }
     });
     modal.addEventListener('click', e => {
-      if (e.target === modal && closeClickOverlay) {
+      if (e.target === modal) {
         hideDataModal();
         hideModalDisplay();
         document.body.style.marginRight = `0px`;
@@ -61,6 +65,9 @@ const modals = () => {
   function showModalByTime(selector, time) {
     setTimeout(function () {
       let display;
+
+      // document.body.style.marginRight = `${calcScroll()}px`;
+
       document.querySelectorAll('[data-modal]').forEach(item => {
         if (getComputedStyle(item).display !== 'none') {
           display = 'block';
@@ -69,6 +76,7 @@ const modals = () => {
       if (!display) {
         document.querySelector(selector).style.display = 'block';
         document.body.style.overflow = 'hidden';
+        let scroll = calcScroll();
       }
     }, time);
   }
@@ -85,7 +93,8 @@ const modals = () => {
   }
   bindModal('.button-design', '.popup-design', '.popup-design .popup-close');
   bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close');
-  showModalByTime('.popup-consultation', 5000);
+  bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close', true);
+  showModalByTime('.popup-consultation', 60000);
 };
 /* harmony default export */ __webpack_exports__["default"] = (modals);
 
