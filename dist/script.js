@@ -166,6 +166,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/modals */ "./src/js/modules/modals.js");
 
 window.addEventListener('DOMContentLoaded', function () {
+  'use strict';
+
   (0,_modules_modals__WEBPACK_IMPORTED_MODULE_0__["default"])();
 });
 }();
