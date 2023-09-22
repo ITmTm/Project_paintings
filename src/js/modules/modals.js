@@ -27,8 +27,15 @@ const modals = () => {
 					item.remove();
 				}
 
-				hideDataModal();
-				showModalDisplay();
+				windows.forEach(item => {
+					item.style.display = 'none';
+					item.classList.add('animated', 'fadeIn');
+				});
+
+				modal.style.display = 'block';
+				document.body.style.overflow = 'hidden';
+
+				present.style.marginRight = '17px';
 
 				document.body.style.marginRight = `${scroll}px`;
 			});
@@ -36,52 +43,32 @@ const modals = () => {
 
 		close.addEventListener('click', () => {
 
-			hideDataModal();
-			hideModalDisplay();
+			windows.forEach(item => {
+				item.style.display = 'none';
+			});
+
+			modal.style.display = 'none';
+			document.body.style.overflow = '';
+			present.style.marginRight = '0px';
 
 			document.body.style.marginRight = `0px`;
 		});
-
-		document.addEventListener('keydown', (e) => {
-			if (e.code === 'Escape' && modal.classList.contains('popup-design') || modal.classList.contains('popup-consultation') || modal.classList.contains('popup-gift')) {
-
-				hideModalDisplay();
-				document.body.style.marginRight = `0px`;
-			}
-		})
 
 
 		modal.addEventListener('click', (e) => {
 			if (e.target === modal) {
 
-				hideDataModal();
+				windows.forEach(item => {
+					item.style.display = 'none';
+				});
 
-				hideModalDisplay()
+				modal.style.display = 'none';
+				document.body.style.overflow = '';
+				present.style.marginRight = '0';
 
 				document.body.style.marginRight = `0px`;
-
 			}
 		});
-
-
-		function showModalDisplay() {
-			modal.style.display = 'block';
-			document.body.style.overflow = 'hidden';
-			present.style.marginRight = '17px';
-		}
-
-		function hideModalDisplay() {
-			modal.style.display = 'none';
-			document.body.style.overflow = '';
-			present.style.marginRight = '0';
-		}
-
-		function hideDataModal() {
-			windows.forEach(item => {
-				item.style.display = 'none';
-				item.classList.add('animated', 'fadeIn');
-			});
-		}
 	}
 
 	function showModalByTime(selector, time) {
