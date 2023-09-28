@@ -81,7 +81,16 @@ gulp.task('minify-html', function() {
 });
 
 gulp.task('minify-css', function() {
-    return gulp.src('./src/assets/css/style.css') // указываем пути к файлам .html
+    return gulp.src('./src/assets/css/main.css') // указываем пути к файлам .html
+        .pipe(htmlmin({
+            collapseWhitespace: true, // удаляем все переносы
+            removeComments: true // удаляем все комментарии
+        }))
+        .pipe(gulp.dest('dist/assets/css')); // оптимизированные файлы .html переносим на продакшен
+});
+
+gulp.task('minify-main-less', function() {
+    return gulp.src('./src/assets/less/main.less') // указываем пути к файлам .html
         .pipe(htmlmin({
             collapseWhitespace: true, // удаляем все переносы
             removeComments: true // удаляем все комментарии
